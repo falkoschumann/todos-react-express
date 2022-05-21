@@ -4,16 +4,16 @@
 
 ### Commands
 
-- Add todo (title)
-- Toggle all (checked)
-- Toggle todo
-- Destroy todo
-- Save todo (title)
-- Clear completed
+- [ ] Add todo (title)
+- [ ] Toggle all (checked)
+- [ ] Toggle todo
+- [ ] Destroy todo
+- [ ] Save todo (title)
+- [ ] Clear completed
 
 ### Queries
 
-- Select todos (_id_, title, completed)
+- [x] Select todos (_id_, title, completed)
 
 ### Notifications
 

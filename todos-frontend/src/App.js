@@ -1,25 +1,18 @@
-import logo from './logo.svg';
-import './App.css';
+// @ts-check
+
+import { useCallback, useState } from 'react';
+import TodosController from './adapters/portals/TodosController';
+import TodosAPI from './adapters/providers/TodosAPI';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+  const [selectedTodos, setSelectedTodos] = useState();
+
+  const handleSelectTodos = useCallback(async () => {
+    const result = await TodosAPI.selectTodos();
+    setSelectedTodos(result);
+  }, []);
+
+  return <TodosController selectedTodos={selectedTodos} onSelectTodos={handleSelectTodos} />;
 }
 
 export default App;

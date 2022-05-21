@@ -1,0 +1,24 @@
+{
+  "name": "todos",
+  "workspaces": [
+    "todos-backend-server",
+    "todos-frontend"
+  ],
+  "scripts": {
+    "ci": "npm run build && npm run test && npm run analyze",
+    "build": "npm run build --workspaces --if-present",
+    "dev": "concurrently \"npm start --workspace=todos-backend-server\" \"npm start --workspace=todos-frontend\"",
+    "test": "npm run test --workspaces --if-present",
+    "analyze": "npm run prettier && npm run eslint",
+    "analyze:fix": "npm run prettier:fix && npm run eslint:fix",
+    "prettier": "prettier --check .",
+    "prettier:fix": "prettier --write .",
+    "eslint": "eslint .",
+    "eslint:fix": "eslint --fix ."
+  },
+  "devDependencies": {
+    "concurrently": "^7.2.0",
+    "eslint": "^8.16.0",
+    "prettier": "^2.6.2"
+  }
+}

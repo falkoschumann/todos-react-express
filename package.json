@@ -5,7 +5,7 @@
     "todos-frontend"
   ],
   "scripts": {
-    "ci": "npm run build && npm run test && npm run analyze",
+    "all": "npm run build && npm run test && npm run analyze",
     "build": "npm run build --workspaces --if-present",
     "start": "npm start --workspace todos-backend-server",
     "dev": "concurrently \"PORT=8080 npm start --workspace=todos-backend-server\" \"npm start --workspace=todos-frontend\"",

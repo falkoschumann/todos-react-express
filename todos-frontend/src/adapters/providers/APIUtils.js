@@ -1,5 +1,3 @@
-// @ts-check
-
 async function getJson(endpoint) {
   const response = await fetch(endpoint);
   return response.json();

@@ -1,4 +1,3 @@
-// @ts-check
 'use strict';
 
 var express = require('express');

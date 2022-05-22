@@ -1,5 +1,3 @@
-// @ts-check
-
 import APIUtils from './APIUtils';
 
 const baseUrl = '/api/todos';

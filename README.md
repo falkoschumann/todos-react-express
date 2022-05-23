@@ -4,7 +4,7 @@
 
 ### Commands
 
-- [ ] Add todo (title)
+- [x] Add todo (title)
 - [ ] Toggle all (checked)
 - [x] Toggle todo
 - [ ] Destroy todo

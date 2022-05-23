@@ -3,14 +3,14 @@
 const todosRepository = require('../adapters/providers/todosRepository');
 
 function toggleTodo({ todoId }) {
-  function toggle() {
+  function toggleTodoInList() {
     todos = todos.map((todo) =>
       todo.id === todoId ? { ...todo, completed: !todo.completed } : todo
     );
   }
 
   let todos = todosRepository.load();
-  toggle();
+  toggleTodoInList();
   todosRepository.store(todos);
   return { success: true };
 }

@@ -7,8 +7,8 @@ import TodosController from './adapters/portals/TodosController';
 function App() {
   const [selectedTodos, setSelectedTodos] = useState();
 
-  const handleToggleTodo = useCallback(async (todoId) => {
-    const status = await TodosAPI.toggleTodo({ todoId });
+  const handleAddTodo = useCallback(async (command) => {
+    const status = await TodosAPI.addTodo(command);
     if (!status.success) {
       console.error(status.errorMessage);
     }
@@ -21,6 +21,15 @@ function App() {
     setSelectedTodos(result);
   }, []);
 
+  const handleToggleTodo = useCallback(async (command) => {
+    const status = await TodosAPI.toggleTodo(command);
+    if (!status.success) {
+      console.error(status.errorMessage);
+    }
+    const result = await TodosAPI.selectTodos();
+    setSelectedTodos(result);
+  }, []);
+
   return (
     <Routes>
       <Route
@@ -28,6 +37,7 @@ function App() {
         element={
           <TodosController
             selectedTodos={selectedTodos}
+            onAddTodo={handleAddTodo}
             onSelectTodos={handleSelectTodos}
             onToggleTodo={handleToggleTodo}
           />

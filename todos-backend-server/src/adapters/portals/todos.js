@@ -1,13 +1,28 @@
 'use strict';
 
 var express = require('express');
+
+const addTodo = require('../../messagehandler/addTodo');
 const toggleTodo = require('../../messagehandler/toggleTodo');
 const selectTodos = require('../../messagehandler/selectTodos');
 
 var router = express.Router();
 
-/* POST toggle todo command */
-router.post('/toggle-todo', function (req, res) {
+router.post('/add-todo', (req, res) => {
+  if (req.headers['content-type'] !== 'application/json') {
+    res.status(415).send('Content type must be application/json.');
+    return;
+  }
+  if (req.body.title == null) {
+    res.status(422).send('Missing property "title" in request body.');
+    return;
+  }
+
+  const status = addTodo({ title: req.body.title });
+  res.send(status);
+});
+
+router.post('/toggle-todo', (req, res) => {
   if (req.headers['content-type'] !== 'application/json') {
     res.status(415).send('Content type must be application/json.');
     return;
@@ -25,8 +40,7 @@ router.post('/toggle-todo', function (req, res) {
   res.send(status);
 });
 
-/* GET select todos query */
-router.get('/select-todos', function (req, res) {
+router.get('/select-todos', (req, res) => {
   const result = selectTodos();
   res.send(result);
 });

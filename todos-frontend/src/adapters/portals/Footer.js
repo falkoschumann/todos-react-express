@@ -3,7 +3,7 @@ import classNames from 'classnames';
 
 import { Filter, pluralize } from './utils';
 
-function Footer({ activeCount, filter }) {
+function Footer({ activeCount, filter, onClearCompleted }) {
   return (
     <footer className="grid grid-cols-3 items-center text-sm text-gray-500 bg-white p-3">
       <span>
@@ -22,6 +22,11 @@ function Footer({ activeCount, filter }) {
           </NavItem>
         </ul>
       </nav>
+      <span className="text-right">
+        <button className="hover:underline" onClick={onClearCompleted}>
+          Clear completed
+        </button>
+      </span>
     </footer>
   );
 }

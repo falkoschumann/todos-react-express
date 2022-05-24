@@ -6,7 +6,14 @@ import TodoItem from './TodoItem';
 import { useOnLoad } from './hooks';
 import { useState } from 'react';
 
-function TodosController({ selectedTodos, onAddTodo, onDestroy, onSelectTodos, onToggleTodo }) {
+function TodosController({
+  selectedTodos,
+  onAddTodo,
+  onClearCompleted,
+  onDestroy,
+  onSelectTodos,
+  onToggleTodo,
+}) {
   useOnLoad(onSelectTodos);
   const { shownTodos, activeCount, filter } = useProjection(selectedTodos?.todos);
 
@@ -54,7 +61,7 @@ function TodosController({ selectedTodos, onAddTodo, onDestroy, onSelectTodos, o
               />
             ))}
           </ul>
-          <Footer activeCount={activeCount} filter={filter} />
+          <Footer activeCount={activeCount} filter={filter} onClearCompleted={onClearCompleted} />
         </main>
       ) : null}
     </section>

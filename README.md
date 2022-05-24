@@ -9,7 +9,7 @@
 - [x] Toggle todo
 - [x] Destroy todo
 - [ ] Save todo (title)
-- [ ] Clear completed
+- [x] Clear completed
 
 ### Queries
 

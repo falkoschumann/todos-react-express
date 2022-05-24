@@ -6,6 +6,10 @@ async function addTodo({ title }) {
   return APIUtils.postJson(`${baseUrl}/add-todo`, { title });
 }
 
+async function clearCompleted() {
+  return APIUtils.postJson(`${baseUrl}/clear-completed`);
+}
+
 async function destroyTodo({ todoId }) {
   return APIUtils.postJson(`${baseUrl}/destroy-todo`, { todoId });
 }
@@ -20,6 +24,7 @@ async function toggleTodo({ todoId }) {
 
 const TodosAPI = {
   addTodo,
+  clearCompleted,
   destroyTodo,
   selectTodos,
   toggleTodo,

@@ -16,6 +16,15 @@ function App() {
     setSelectedTodos(result);
   }, []);
 
+  const handleClearCompleted = useCallback(async (command) => {
+    const status = await TodosAPI.clearCompleted(command);
+    if (!status.success) {
+      console.log(status.errorMessage);
+    }
+    const result = await TodosAPI.selectTodos();
+    setSelectedTodos(result);
+  }, []);
+
   const handleDestroy = useCallback(async (command) => {
     const status = await TodosAPI.destroyTodo(command);
     if (!status.success) {
@@ -47,6 +56,7 @@ function App() {
           <TodosController
             selectedTodos={selectedTodos}
             onAddTodo={handleAddTodo}
+            onClearCompleted={handleClearCompleted}
             onDestroy={handleDestroy}
             onSelectTodos={handleSelectTodos}
             onToggleTodo={handleToggleTodo}

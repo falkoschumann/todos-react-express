@@ -3,9 +3,10 @@
 var express = require('express');
 
 const addTodo = require('../../messagehandler/addTodo');
-const toggleTodo = require('../../messagehandler/toggleTodo');
-const selectTodos = require('../../messagehandler/selectTodos');
+const clearCompleted = require('../../messagehandler/clearCompleted');
 const destroyTodo = require('../../messagehandler/destroyTodo');
+const selectTodos = require('../../messagehandler/selectTodos');
+const toggleTodo = require('../../messagehandler/toggleTodo');
 
 var router = express.Router();
 
@@ -20,6 +21,16 @@ router.post('/add-todo', (req, res) => {
   }
 
   const status = addTodo({ title: req.body.title });
+  res.send(status);
+});
+
+router.post('/clear-completed', (req, res) => {
+  if (req.headers['content-type'] !== 'application/json') {
+    res.status(415).send('Content type must be application/json.');
+    return;
+  }
+
+  const status = clearCompleted();
   res.send(status);
 });
 

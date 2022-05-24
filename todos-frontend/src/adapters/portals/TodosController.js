@@ -6,7 +6,7 @@ import TodoItem from './TodoItem';
 import { useOnLoad } from './hooks';
 import { useState } from 'react';
 
-function TodosController({ selectedTodos, onAddTodo, onSelectTodos, onToggleTodo }) {
+function TodosController({ selectedTodos, onAddTodo, onDestroy, onSelectTodos, onToggleTodo }) {
   useOnLoad(onSelectTodos);
   const { shownTodos, activeCount, filter } = useProjection(selectedTodos?.todos);
 
@@ -46,7 +46,12 @@ function TodosController({ selectedTodos, onAddTodo, onSelectTodos, onToggleTodo
         <main className="border border-gray-100 shadow-lg">
           <ul>
             {shownTodos.map((t) => (
-              <TodoItem key={t.id} todo={t} onToggle={() => onToggleTodo({ todoId: t.id })} />
+              <TodoItem
+                key={t.id}
+                todo={t}
+                onDestroy={() => onDestroy({ todoId: t.id })}
+                onToggle={() => onToggleTodo({ todoId: t.id })}
+              />
             ))}
           </ul>
           <Footer activeCount={activeCount} filter={filter} />

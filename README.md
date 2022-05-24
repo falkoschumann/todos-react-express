@@ -7,7 +7,7 @@
 - [x] Add todo (title)
 - [ ] Toggle all (checked)
 - [x] Toggle todo
-- [ ] Destroy todo
+- [x] Destroy todo
 - [ ] Save todo (title)
 - [ ] Clear completed
 

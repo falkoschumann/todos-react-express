@@ -10,8 +10,12 @@ async function clearCompleted() {
   return APIUtils.postJson(`${baseUrl}/clear-completed`);
 }
 
-async function destroyTodo({ todoId }) {
-  return APIUtils.postJson(`${baseUrl}/destroy-todo`, { todoId });
+async function destroyTodo({ id }) {
+  return APIUtils.postJson(`${baseUrl}/destroy-todo`, { id });
+}
+
+async function saveTodo({ id, title }) {
+  return APIUtils.postJson(`${baseUrl}/save-todo`, { id, title });
 }
 
 async function selectTodos() {
@@ -22,14 +26,15 @@ async function toggleAll({ checked }) {
   return APIUtils.postJson(`${baseUrl}/toggle-all`, { checked });
 }
 
-async function toggleTodo({ todoId }) {
-  return APIUtils.postJson(`${baseUrl}/toggle-todo`, { todoId });
+async function toggleTodo({ id }) {
+  return APIUtils.postJson(`${baseUrl}/toggle-todo`, { id });
 }
 
 const TodosAPI = {
   addTodo,
   clearCompleted,
   destroyTodo,
+  saveTodo,
   selectTodos,
   toggleAll,
   toggleTodo,

@@ -2,9 +2,11 @@ import { render, screen } from '@testing-library/react';
 
 import TodoItem from './TodoItem';
 
-function handleToggle(cmd) {
-  console.log('handle toggle', cmd);
-}
+const handleToggle = jest.fn();
+
+beforeEach(() => {
+  handleToggle.mockReset();
+});
 
 describe('TodoItem', () => {
   it('renders active todo.', () => {
@@ -12,8 +14,8 @@ describe('TodoItem', () => {
       <TodoItem todo={{ id: 2, title: 'Buy Unicorn', completed: false }} onToggle={handleToggle} />
     );
 
-    const todoElement = screen.getByLabelText(/Buy Unicorn/i);
-    expect(todoElement).not.toBeChecked();
+    const checkboxElement = screen.getByTestId('completed');
+    expect(checkboxElement).not.toBeChecked();
   });
 
   it('renders completed todo.', () => {
@@ -24,7 +26,7 @@ describe('TodoItem', () => {
       />
     );
 
-    const checkboxElement = screen.getByLabelText(/Taste JavaScript/i);
+    const checkboxElement = screen.getByTestId('completed');
     expect(checkboxElement).toBeChecked();
   });
 });

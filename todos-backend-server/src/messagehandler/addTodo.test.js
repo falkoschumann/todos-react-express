@@ -4,6 +4,7 @@ const todosRepository = require('../adapters/providers/todosRepository');
 const addTodo = require('./addTodo');
 
 jest.mock('../adapters/providers/todosRepository');
+
 describe('Add todo', () => {
   beforeEach(() => {
     todosRepository.store([{ id: 1, title: 'Taste JavaScript', completed: true }]);
@@ -13,7 +14,7 @@ describe('Add todo', () => {
     const status = addTodo({ title: 'Buy a Unicorn' });
 
     expect(status).toEqual({ success: true });
-    const todos = await todosRepository.load();
+    const todos = todosRepository.load();
     expect(todos).toEqual([
       { id: 1, title: 'Taste JavaScript', completed: true },
       { id: 2, title: 'Buy a Unicorn', completed: false },
@@ -24,7 +25,7 @@ describe('Add todo', () => {
     const status = addTodo({ title: '' });
 
     expect(status).toEqual({ success: true });
-    const todos = await todosRepository.load();
+    const todos = todosRepository.load();
     expect(todos).toEqual([{ id: 1, title: 'Taste JavaScript', completed: true }]);
   });
 });

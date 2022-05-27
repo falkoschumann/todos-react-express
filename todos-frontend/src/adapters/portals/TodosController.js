@@ -1,4 +1,5 @@
 import { useLocation } from 'react-router-dom';
+import { useState } from 'react';
 
 import { Filter } from './utils';
 import Footer from './Footer';
@@ -12,24 +13,44 @@ function TodosController({
   onAddTodo,
   onClearCompleted,
   onDestroy,
+  onSaveTodo,
   onSelectTodos,
   onToggleAll,
   onToggleTodo,
 }) {
-  function handleDestroy(todoId) {
-    onDestroy({ todoId });
+  const [editing, setEditing] = useState();
+
+  function handleAddTodo(title) {
+    onAddTodo({ title });
+  }
+
+  function handleToggleTodo(id) {
+    onToggleTodo({ id });
   }
 
   function handleToggleAll(event) {
     onToggleAll({ checked: event.target.checked });
   }
 
-  function handleToggleTodo(todoId) {
-    onToggleTodo({ todoId });
+  function handleDestroy(id) {
+    onDestroy({ id });
   }
 
-  function handleAddTodo(title) {
-    onAddTodo({ title });
+  function handleEdit(todoId) {
+    setEditing(todoId);
+  }
+
+  function handleSaveTodo(id, title) {
+    onSaveTodo({ id, title });
+    setEditing(null);
+  }
+
+  function handleCancel() {
+    setEditing(null);
+  }
+
+  function handleClearCompleted() {
+    onClearCompleted();
   }
 
   function useProjection() {
@@ -72,8 +93,12 @@ function TodosController({
             {shownTodos.map((todo) => (
               <TodoItem
                 key={todo.id}
+                editing={editing === todo.id}
                 todo={todo}
+                onCancel={handleCancel}
                 onDestroy={() => handleDestroy(todo.id)}
+                onEdit={() => handleEdit(todo.id)}
+                onSave={(title) => handleSaveTodo(todo.id, title)}
                 onToggle={() => handleToggleTodo(todo.id)}
               />
             ))}
@@ -82,7 +107,7 @@ function TodosController({
             activeCount={activeCount}
             completedCount={completedCount}
             filter={filter}
-            onClearCompleted={onClearCompleted}
+            onClearCompleted={handleClearCompleted}
           />
         </>
       ) : null}

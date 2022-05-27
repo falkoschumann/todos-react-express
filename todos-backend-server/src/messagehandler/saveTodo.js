@@ -2,15 +2,16 @@
 
 const todosRepository = require('../adapters/providers/todosRepository');
 
-function destroyTodo({ id }) {
-  function removeTodoFromList() {
-    todos = todos.filter((todo) => todo.id !== id);
+function saveTodo({ id, title }) {
+  function updateTodoInList() {
+    todos = todos.map((todo) => (todo.id === id ? { ...todo, title } : todo));
   }
 
   let todos = todosRepository.load();
-  removeTodoFromList();
+  updateTodoInList();
   todosRepository.store(todos);
+
   return { success: true };
 }
 
-module.exports = destroyTodo;
+module.exports = saveTodo;

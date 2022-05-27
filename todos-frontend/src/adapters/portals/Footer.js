@@ -4,24 +4,6 @@ import classNames from 'classnames';
 import { Filter, pluralize } from './utils';
 
 function Footer({ activeCount, completedCount, filter, onClearCompleted }) {
-  function NavItem({ to, active, children }) {
-    return (
-      <li>
-        <Link
-          to={to}
-          aria-current={active ? 'page' : undefined}
-          className={classNames({
-            'm-1 px-2 py-1': true,
-            'border border-solid border-transparent hover:border-red-300': !active,
-            'border border-red-500': active,
-          })}
-        >
-          {children}
-        </Link>
-      </li>
-    );
-  }
-
   return (
     <footer className="p-3 grid grid-cols-3 items-center text-sm border-t border-solid border-gray-200 shadow-xl">
       <div data-testid="todo-count">
@@ -52,3 +34,21 @@ function Footer({ activeCount, completedCount, filter, onClearCompleted }) {
 }
 
 export default Footer;
+
+function NavItem({ to, active, children }) {
+  return (
+    <li>
+      <Link
+        to={to}
+        aria-current={active ? 'page' : undefined}
+        className={classNames({
+          'm-1 px-2 py-1': true,
+          'border border-solid border-transparent hover:border-red-300': !active,
+          'border border-red-500': active,
+        })}
+      >
+        {children}
+      </Link>
+    </li>
+  );
+}

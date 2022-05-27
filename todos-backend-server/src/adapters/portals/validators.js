@@ -1,3 +1,5 @@
+'use strict';
+
 var http2 = require('http2');
 
 function isJson(req, res) {

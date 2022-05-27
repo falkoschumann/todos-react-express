@@ -5,11 +5,11 @@
 ### Commands
 
 - [x] Add todo (title)
-- [x] Toggle all (checked)
 - [x] Toggle todo (id)
+- [x] Toggle all (checked)
 - [x] Destroy todo (id)
-- [ ] Save todo (title)
 - [x] Clear completed
+- [x] Save todo (id, title)
 
 ### Queries
 

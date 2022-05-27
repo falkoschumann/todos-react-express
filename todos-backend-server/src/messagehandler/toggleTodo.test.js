@@ -14,7 +14,7 @@ describe('Toggle todos', () => {
   });
 
   it('activates a todo.', () => {
-    const status = toggleTodo({ todoId: 1 });
+    const status = toggleTodo({ id: 1 });
 
     expect(status).toEqual({ success: true });
     const todos = todosRepository.load();
@@ -25,7 +25,7 @@ describe('Toggle todos', () => {
   });
 
   it('completes a todo.', () => {
-    const status = toggleTodo({ todoId: 2 });
+    const status = toggleTodo({ id: 2 });
 
     expect(status).toEqual({ success: true });
     const todos = todosRepository.load();

@@ -6,6 +6,7 @@ const { isJson, hasProperty, hasPropertyType } = require('./validators');
 const addTodo = require('../../messagehandler/addTodo');
 const clearCompleted = require('../../messagehandler/clearCompleted');
 const destroyTodo = require('../../messagehandler/destroyTodo');
+const saveTodo = require('../../messagehandler/saveTodo');
 const selectTodos = require('../../messagehandler/selectTodos');
 const toggleAll = require('../../messagehandler/toggleAll');
 const toggleTodo = require('../../messagehandler/toggleTodo');
@@ -33,10 +34,23 @@ router.post('/clear-completed', (req, res) => {
 router.post('/destroy-todo', (req, res) => {
   if (
     isJson(req, res) &&
-    hasProperty('todoId', req, res) &&
-    hasPropertyType('todoId', 'number', req, res)
+    hasProperty('id', req, res) &&
+    hasPropertyType('id', 'number', req, res)
   ) {
-    const status = destroyTodo({ todoId: req.body.todoId });
+    const status = destroyTodo({ id: req.body.id });
+    res.send(status);
+  }
+});
+
+router.post('/save-todo', (req, res) => {
+  if (
+    isJson(req, res) &&
+    hasProperty('id', req, res) &&
+    hasPropertyType('id', 'number', req, res) &&
+    hasProperty('title', req, res) &&
+    hasPropertyType('title', 'string', req, res)
+  ) {
+    const status = saveTodo({ id: req.body.id, title: req.body.title });
     res.send(status);
   }
 });
@@ -60,10 +74,10 @@ router.post('/toggle-all', (req, res) => {
 router.post('/toggle-todo', (req, res) => {
   if (
     isJson(req, res) &&
-    hasProperty('todoId', req, res) &&
-    hasPropertyType('todoId', 'number', req, res)
+    hasProperty('id', req, res) &&
+    hasPropertyType('id', 'number', req, res)
   ) {
-    const status = toggleTodo({ todoId: req.body.todoId });
+    const status = toggleTodo({ id: req.body.id });
     res.send(status);
   }
 });

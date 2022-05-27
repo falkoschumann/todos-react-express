@@ -1,11 +1,11 @@
 'use strict';
 
 const todosRepository = require('../adapters/providers/todosRepository');
-const destroyTodo = require('./destroyTodo');
+const saveTodo = require('./saveTodo');
 
 jest.mock('../adapters/providers/todosRepository');
 
-describe('Destroy todos', () => {
+describe('Save todo', () => {
   beforeEach(() => {
     todosRepository.store([
       { id: 1, title: 'Taste JavaScript', completed: true },
@@ -13,11 +13,14 @@ describe('Destroy todos', () => {
     ]);
   });
 
-  it('destroy a todo.', () => {
-    const status = destroyTodo({ id: 1 });
+  it('changes todos title.', () => {
+    const status = saveTodo({ id: 1, title: 'Taste TypeScript' });
 
     expect(status).toEqual({ success: true });
     const todos = todosRepository.load();
-    expect(todos).toEqual([{ id: 2, title: 'Buy Unicorn', completed: false }]);
+    expect(todos).toEqual([
+      { id: 1, title: 'Taste TypeScript', completed: true },
+      { id: 2, title: 'Buy Unicorn', completed: false },
+    ]);
   });
 });

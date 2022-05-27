@@ -12,3 +12,18 @@ export function useOnLoad(callback) {
     callback();
   }, [callback]);
 }
+
+export function useCheckbox({ checked, indeterminate }) {
+  const ref = useRef();
+
+  useEffect(() => {
+    if (!ref.current) {
+      return;
+    }
+
+    ref.current.checked = checked;
+    ref.current.indeterminate = indeterminate;
+  }, [checked, indeterminate]);
+
+  return ref;
+}

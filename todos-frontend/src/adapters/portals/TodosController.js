@@ -2,9 +2,10 @@ import { useLocation } from 'react-router-dom';
 
 import { Filter } from './utils';
 import Footer from './Footer';
+import Header from './Header';
 import TodoItem from './TodoItem';
+import TodoList from './TodoList';
 import { useOnLoad } from './hooks';
-import { useState } from 'react';
 
 function TodosController({
   selectedTodos,
@@ -12,82 +13,81 @@ function TodosController({
   onClearCompleted,
   onDestroy,
   onSelectTodos,
+  onToggleAll,
   onToggleTodo,
 }) {
+  function handleDestroy(todoId) {
+    onDestroy({ todoId });
+  }
+
+  function handleToggleAll(event) {
+    onToggleAll({ checked: event.target.checked });
+  }
+
+  function handleToggleTodo(todoId) {
+    onToggleTodo({ todoId });
+  }
+
+  function handleAddTodo(title) {
+    onAddTodo({ title });
+  }
+
+  function useProjection() {
+    let activeCount, completedCount, filter, shownTodos;
+    const { pathname } = useLocation();
+    switch (pathname) {
+      case '/active':
+        filter = Filter.Active;
+        shownTodos = selectedTodos?.todos.filter((t) => !t.completed);
+        break;
+      case '/completed':
+        filter = Filter.Completed;
+        shownTodos = selectedTodos?.todos.filter((t) => t.completed);
+        break;
+      default:
+        filter = Filter.All;
+        shownTodos = selectedTodos?.todos;
+        break;
+    }
+    activeCount = selectedTodos?.todos.filter((t) => !t.completed).length;
+    completedCount = selectedTodos?.todos.length - activeCount;
+
+    return { activeCount, completedCount, filter, shownTodos };
+  }
+
   useOnLoad(onSelectTodos);
-  const { shownTodos, activeCount, filter } = useProjection(selectedTodos?.todos);
-
-  const [newTodo, setNewTodo] = useState('');
-
-  function handleChange(event) {
-    setNewTodo(event.target.value);
-  }
-
-  function handleNewTodoKeyDown(event) {
-    if (event.code !== 'Enter') {
-      return;
-    }
-
-    event.preventDefault();
-    const title = newTodo.trim();
-    if (title) {
-      setNewTodo('');
-      onAddTodo({ title });
-    }
-  }
+  const { activeCount, completedCount, filter, shownTodos } = useProjection();
 
   return (
-    <section className="container mx-auto">
-      <header className="mt-7">
-        <h1 className="mb-5 font-thin text-8xl text-center text-red-700">todos</h1>
-        <input
-          className="block w-full pl-16 pr-3 py-4 font-light text-2xl placeholder:italic placeholder:text-gray-400 bg-white border border-gray-100 shadow-lg"
-          placeholder="What needs to be done?"
-          autoFocus
-          value={newTodo}
-          onChange={handleChange}
-          onKeyDown={handleNewTodoKeyDown}
-        />
-      </header>
+    <section className="relative container mx-auto mt-36 mb-10 bg-white shadow-2xl">
+      <Header onAddTodo={handleAddTodo} />
       {selectedTodos?.todos.length ? (
-        <main className="border border-gray-100 shadow-lg">
-          <ul>
-            {shownTodos.map((t) => (
+        <>
+          <TodoList
+            activeCount={activeCount}
+            completedCount={completedCount}
+            shownTodos={shownTodos}
+            onToggleAll={handleToggleAll}
+          >
+            {shownTodos.map((todo) => (
               <TodoItem
-                key={t.id}
-                todo={t}
-                onDestroy={() => onDestroy({ todoId: t.id })}
-                onToggle={() => onToggleTodo({ todoId: t.id })}
+                key={todo.id}
+                todo={todo}
+                onDestroy={() => handleDestroy(todo.id)}
+                onToggle={() => handleToggleTodo(todo.id)}
               />
             ))}
-          </ul>
-          <Footer activeCount={activeCount} filter={filter} onClearCompleted={onClearCompleted} />
-        </main>
+          </TodoList>
+          <Footer
+            activeCount={activeCount}
+            completedCount={completedCount}
+            filter={filter}
+            onClearCompleted={onClearCompleted}
+          />
+        </>
       ) : null}
     </section>
   );
 }
 
 export default TodosController;
-
-function useProjection(todos = []) {
-  const { pathname } = useLocation();
-  let filter;
-  let shownTodos;
-  switch (pathname) {
-    case '/active':
-      filter = Filter.Active;
-      shownTodos = todos.filter((t) => !t.completed);
-      break;
-    case '/completed':
-      filter = Filter.Completed;
-      shownTodos = todos.filter((t) => t.completed);
-      break;
-    default:
-      filter = Filter.All;
-      shownTodos = todos;
-      break;
-  }
-  const activeCount = todos.filter((t) => !t.completed).length;
-  return { shownTodos, activeCount, filter };
-}

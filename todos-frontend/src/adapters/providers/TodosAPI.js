@@ -18,6 +18,10 @@ async function selectTodos() {
   return APIUtils.getJson(`${baseUrl}/select-todos`);
 }
 
+async function toggleAll({ checked }) {
+  return APIUtils.postJson(`${baseUrl}/toggle-all`, { checked });
+}
+
 async function toggleTodo({ todoId }) {
   return APIUtils.postJson(`${baseUrl}/toggle-todo`, { todoId });
 }
@@ -27,6 +31,7 @@ const TodosAPI = {
   clearCompleted,
   destroyTodo,
   selectTodos,
+  toggleAll,
   toggleTodo,
 };
 

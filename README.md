@@ -5,9 +5,9 @@
 ### Commands
 
 - [x] Add todo (title)
-- [ ] Toggle all (checked)
-- [x] Toggle todo
-- [x] Destroy todo
+- [x] Toggle all (checked)
+- [x] Toggle todo (id)
+- [x] Destroy todo (id)
 - [ ] Save todo (title)
 - [x] Clear completed
 

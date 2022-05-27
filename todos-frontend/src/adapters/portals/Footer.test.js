@@ -11,12 +11,12 @@ describe('Footer', () => {
 
     render(
       <Router location={history.location} navigator={history}>
-        <Footer activeCount={1} filter={Filter.All} />
+        <Footer activeCount={1} completedCount={1} filter={Filter.All} />
       </Router>
     );
 
-    const countElement = screen.getByText(/1 item left/i);
-    expect(countElement).toBeInTheDocument();
+    const countElement = screen.getByTestId('todo-count');
+    expect(countElement.textContent).toEqual('1 item left');
   });
 
   it('renders multiple todos with plural counter.', () => {
@@ -24,12 +24,12 @@ describe('Footer', () => {
 
     render(
       <Router location={history.location} navigator={history}>
-        <Footer activeCount={2} filter={Filter.All} />
+        <Footer activeCount={2} completedCount={0} filter={Filter.All} />
       </Router>
     );
 
-    const countElement = screen.getByText(/2 items left/i);
-    expect(countElement).toBeInTheDocument();
+    const countElement = screen.getByTestId('todo-count');
+    expect(countElement.textContent).toEqual('2 items left');
   });
 
   it('renders all as current page.', () => {
@@ -37,7 +37,7 @@ describe('Footer', () => {
 
     render(
       <Router location={history.location} navigator={history}>
-        <Footer activeCount={1} filter={Filter.All} />
+        <Footer activeCount={1} completedCount={1} filter={Filter.All} />
       </Router>
     );
 
@@ -50,23 +50,50 @@ describe('Footer', () => {
 
     render(
       <Router location={history.location} navigator={history}>
-        <Footer activeCount={1} filter={Filter.Active} />
+        <Footer activeCount={1} completedCount={1} filter={Filter.Active} />
       </Router>
     );
 
     const linkElement = screen.getByRole('link', { current: 'page' });
     expect(linkElement.text).toEqual('Active');
   });
+
   it('renders completed as current page.', () => {
     const history = createMemoryHistory();
 
     render(
       <Router location={history.location} navigator={history}>
-        <Footer activeCount={1} filter={Filter.Completed} />
+        <Footer activeCount={1} completedCount={1} filter={Filter.Completed} />
       </Router>
     );
 
     const linkElement = screen.getByRole('link', { current: 'page' });
     expect(linkElement.text).toEqual('Completed');
+  });
+
+  it('display clear completed button.', () => {
+    const history = createMemoryHistory();
+
+    render(
+      <Router location={history.location} navigator={history}>
+        <Footer activeCount={1} completedCount={1} filter={Filter.All} />
+      </Router>
+    );
+
+    const buttonElement = screen.getByText(/clear completed/i);
+    expect(buttonElement).toBeInTheDocument();
+  });
+
+  it('do not display clear completed button.', () => {
+    const history = createMemoryHistory();
+
+    render(
+      <Router location={history.location} navigator={history}>
+        <Footer activeCount={2} completedCount={0} filter={Filter.All} />
+      </Router>
+    );
+
+    const buttonElement = screen.queryByText(/clear completed/i);
+    expect(buttonElement).not.toBeInTheDocument();
   });
 });

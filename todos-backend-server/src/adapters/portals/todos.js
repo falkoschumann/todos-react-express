@@ -2,77 +2,70 @@
 
 var express = require('express');
 
+const { isJson, hasProperty, hasPropertyType } = require('./validators');
 const addTodo = require('../../messagehandler/addTodo');
 const clearCompleted = require('../../messagehandler/clearCompleted');
 const destroyTodo = require('../../messagehandler/destroyTodo');
 const selectTodos = require('../../messagehandler/selectTodos');
+const toggleAll = require('../../messagehandler/toggleAll');
 const toggleTodo = require('../../messagehandler/toggleTodo');
 
 var router = express.Router();
 
 router.post('/add-todo', (req, res) => {
-  if (req.headers['content-type'] !== 'application/json') {
-    res.status(415).send('Content type must be application/json.');
-    return;
+  if (
+    isJson(req, res) &&
+    hasProperty('title', req, res) &&
+    hasPropertyType('title', 'string', req, res)
+  ) {
+    const status = addTodo({ title: req.body.title });
+    res.send(status);
   }
-  if (req.body.title == null) {
-    res.status(422).send('Missing property "title" in request body.');
-    return;
-  }
-
-  const status = addTodo({ title: req.body.title });
-  res.send(status);
 });
 
 router.post('/clear-completed', (req, res) => {
-  if (req.headers['content-type'] !== 'application/json') {
-    res.status(415).send('Content type must be application/json.');
-    return;
+  if (isJson(req, res)) {
+    const status = clearCompleted();
+    res.send(status);
   }
-
-  const status = clearCompleted();
-  res.send(status);
 });
 
 router.post('/destroy-todo', (req, res) => {
-  if (req.headers['content-type'] !== 'application/json') {
-    res.status(415).send('Content type must be application/json.');
-    return;
+  if (
+    isJson(req, res) &&
+    hasProperty('todoId', req, res) &&
+    hasPropertyType('todoId', 'number', req, res)
+  ) {
+    const status = destroyTodo({ todoId: req.body.todoId });
+    res.send(status);
   }
-  if (req.body.todoId == null) {
-    res.status(422).send('Missing property "todoId" in request body.');
-    return;
-  }
-  if (typeof req.body.todoId !== 'number') {
-    res.status(422).send('Property "todoId" in request body must be number value.');
-    return;
-  }
-
-  const status = destroyTodo({ todoId: req.body.todoId });
-  res.send(status);
-});
-
-router.post('/toggle-todo', (req, res) => {
-  if (req.headers['content-type'] !== 'application/json') {
-    res.status(415).send('Content type must be application/json.');
-    return;
-  }
-  if (req.body.todoId == null) {
-    res.status(422).send('Missing property "todoId" in request body.');
-    return;
-  }
-  if (typeof req.body.todoId !== 'number') {
-    res.status(422).send('Property "todoId" in request body must be number value.');
-    return;
-  }
-
-  const status = toggleTodo({ todoId: req.body.todoId });
-  res.send(status);
 });
 
 router.get('/select-todos', (req, res) => {
   const result = selectTodos();
   res.send(result);
+});
+
+router.post('/toggle-all', (req, res) => {
+  if (
+    isJson(req, res) &&
+    hasProperty('checked', req, res) &&
+    hasPropertyType('checked', 'boolean', req, res)
+  ) {
+    const status = toggleAll({ checked: req.body.checked });
+    res.send(status);
+  }
+});
+
+router.post('/toggle-todo', (req, res) => {
+  if (
+    isJson(req, res) &&
+    hasProperty('todoId', req, res) &&
+    hasPropertyType('todoId', 'number', req, res)
+  ) {
+    const status = toggleTodo({ todoId: req.body.todoId });
+    res.send(status);
+  }
 });
 
 module.exports = router;

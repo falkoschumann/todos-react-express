@@ -3,14 +3,32 @@ import classNames from 'classnames';
 
 import { Filter, pluralize } from './utils';
 
-function Footer({ activeCount, filter, onClearCompleted }) {
+function Footer({ activeCount, completedCount, filter, onClearCompleted }) {
+  function NavItem({ to, active, children }) {
+    return (
+      <li>
+        <Link
+          to={to}
+          aria-current={active ? 'page' : undefined}
+          className={classNames({
+            'm-1 px-2 py-1': true,
+            'border border-solid border-transparent hover:border-red-300': !active,
+            'border border-red-500': active,
+          })}
+        >
+          {children}
+        </Link>
+      </li>
+    );
+  }
+
   return (
-    <footer className="grid grid-cols-3 items-center text-sm text-gray-500 bg-white p-3">
-      <span>
-        {activeCount} {pluralize(activeCount, 'item')} left
-      </span>
+    <footer className="p-3 grid grid-cols-3 items-center text-sm border-t border-solid border-gray-200 shadow-xl">
+      <div data-testid="todo-count">
+        <strong className="font-light">{activeCount}</strong> {pluralize(activeCount, 'item')} left
+      </div>
       <nav>
-        <ul className="flex justify-center space-x-3">
+        <ul className="flex justify-center">
           <NavItem to="/" active={filter !== Filter.Active && filter !== Filter.Completed}>
             All
           </NavItem>
@@ -22,29 +40,15 @@ function Footer({ activeCount, filter, onClearCompleted }) {
           </NavItem>
         </ul>
       </nav>
-      <span className="text-right">
-        <button className="hover:underline" onClick={onClearCompleted}>
-          Clear completed
-        </button>
-      </span>
+      {completedCount > 0 ? (
+        <span className="text-right">
+          <button className="font-light hover:underline" onClick={onClearCompleted}>
+            Clear completed
+          </button>
+        </span>
+      ) : null}
     </footer>
   );
 }
 
 export default Footer;
-
-function NavItem({ to, active, children }) {
-  return (
-    <li
-      className={classNames({
-        'px-2 py-1 bg-white': true,
-        'border border-white hover:border hover:border-red-200': !active,
-        'border border-red-400': active,
-      })}
-    >
-      <Link to={to} aria-current={active ? 'page' : undefined}>
-        {children}
-      </Link>
-    </li>
-  );
-}

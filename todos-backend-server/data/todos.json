@@ -1,4 +1,1 @@
-[
-  { "id": 1, "title": "Taste JavaScript", "completed": true },
-  { "id": 2, "title": "Buy Unicorn", "completed": false }
-]
+[{"id":1,"title":"Taste JavaScript","completed":true},{"id":2,"title":"Buy Unicorn","completed":false}]

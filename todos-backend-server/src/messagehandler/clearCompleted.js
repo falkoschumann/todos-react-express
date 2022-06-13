@@ -3,12 +3,12 @@
 const todosRepository = require('../adapters/providers/todosRepository');
 
 function clearCompleted() {
-  function toggleTodoInList() {
+  function doClearCompleted() {
     todos = todos.filter((todo) => !todo.completed);
   }
 
   let todos = todosRepository.load();
-  toggleTodoInList();
+  doClearCompleted();
   todosRepository.store(todos);
   return { success: true };
 }

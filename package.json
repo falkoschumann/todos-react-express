@@ -10,8 +10,8 @@
     "start": "npm start --workspace todos-backend-server",
     "dev": "concurrently \"PORT=8080 npm start --workspace=todos-backend-server\" \"npm start --workspace=todos-frontend\"",
     "test": "npm run test --workspaces --if-present",
-    "analyze": "npm run prettier && npm run eslint",
-    "prettier": "prettier --check .",
+    "analyze": "npm run prettier:check && npm run eslint",
+    "prettier:check": "prettier --check .",
     "prettier:write": "prettier --write .",
     "eslint": "eslint */src",
     "eslint:fix": "eslint --fix */src"

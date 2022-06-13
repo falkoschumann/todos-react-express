@@ -23,4 +23,12 @@ describe('Save todo', () => {
       { id: 2, title: 'Buy Unicorn', completed: false },
     ]);
   });
+
+  it('destroys todo if title is empty.', () => {
+    const status = saveTodo({ id: 1, title: '' });
+
+    expect(status).toEqual({ success: true });
+    const todos = todosRepository.load();
+    expect(todos).toEqual([{ id: 2, title: 'Buy Unicorn', completed: false }]);
+  });
 });

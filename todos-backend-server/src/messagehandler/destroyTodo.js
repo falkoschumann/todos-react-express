@@ -3,12 +3,12 @@
 const todosRepository = require('../adapters/providers/todosRepository');
 
 function destroyTodo({ id }) {
-  function removeTodoFromList() {
+  function doDestroyTodo() {
     todos = todos.filter((todo) => todo.id !== id);
   }
 
   let todos = todosRepository.load();
-  removeTodoFromList();
+  doDestroyTodo();
   todosRepository.store(todos);
   return { success: true };
 }

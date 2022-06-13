@@ -11,13 +11,13 @@ describe('Add todo', () => {
   });
 
   it('saves new todo.', async () => {
-    const status = addTodo({ title: 'Buy a Unicorn' });
+    const status = addTodo({ title: 'Buy Unicorn' });
 
     expect(status).toEqual({ success: true });
     const todos = todosRepository.load();
     expect(todos).toEqual([
       { id: 1, title: 'Taste JavaScript', completed: true },
-      { id: 2, title: 'Buy a Unicorn', completed: false },
+      { id: 2, title: 'Buy Unicorn', completed: false },
     ]);
   });
 

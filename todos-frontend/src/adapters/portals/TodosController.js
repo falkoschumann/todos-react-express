@@ -12,7 +12,7 @@ function TodosController({
   selectedTodos,
   onAddTodo,
   onClearCompleted,
-  onDestroy,
+  onDestroy: onDestroyTodo,
   onSaveTodo,
   onSelectTodos,
   onToggleAll,
@@ -28,12 +28,12 @@ function TodosController({
     onToggleTodo({ id });
   }
 
-  function handleToggleAll(event) {
-    onToggleAll({ checked: event.target.checked });
+  function handleToggleAll(checked) {
+    onToggleAll({ checked });
   }
 
   function handleDestroy(id) {
-    onDestroy({ id });
+    onDestroyTodo({ id });
   }
 
   function handleEdit(todoId) {
@@ -53,29 +53,6 @@ function TodosController({
     onClearCompleted();
   }
 
-  function useProjection() {
-    let activeCount, completedCount, filter, shownTodos;
-    const { pathname } = useLocation();
-    switch (pathname) {
-      case '/active':
-        filter = Filter.Active;
-        shownTodos = selectedTodos?.todos.filter((t) => !t.completed);
-        break;
-      case '/completed':
-        filter = Filter.Completed;
-        shownTodos = selectedTodos?.todos.filter((t) => t.completed);
-        break;
-      default:
-        filter = Filter.All;
-        shownTodos = selectedTodos?.todos;
-        break;
-    }
-    activeCount = selectedTodos?.todos.filter((t) => !t.completed).length;
-    completedCount = selectedTodos?.todos.length - activeCount;
-
-    return { activeCount, completedCount, filter, shownTodos };
-  }
-
   useOnLoad(onSelectTodos);
   const { activeCount, completedCount, filter, shownTodos } = useProjection();
 
@@ -87,7 +64,6 @@ function TodosController({
           <TodoList
             activeCount={activeCount}
             completedCount={completedCount}
-            shownTodos={shownTodos}
             onToggleAll={handleToggleAll}
           >
             {shownTodos.map((todo) => (
@@ -116,3 +92,36 @@ function TodosController({
 }
 
 export default TodosController;
+
+function useProjection(selectedTodos) {
+  const { pathname } = useLocation();
+
+  if (selectedTodos == null) {
+    return {
+      activeCount: 0,
+      completedCount: 0,
+      filter: Filter.All,
+      shownTodos: [],
+    };
+  }
+
+  let activeCount, completedCount, filter, shownTodos;
+  switch (pathname) {
+    case '/active':
+      filter = Filter.Active;
+      shownTodos = selectedTodos.todos.filter((t) => !t.completed);
+      break;
+    case '/completed':
+      filter = Filter.Completed;
+      shownTodos = selectedTodos.todos.filter((t) => t.completed);
+      break;
+    default:
+      filter = Filter.All;
+      shownTodos = selectedTodos.todos;
+      break;
+  }
+  activeCount = selectedTodos.todos.filter((t) => !t.completed).length;
+  completedCount = selectedTodos.todos.length - activeCount;
+
+  return { activeCount, completedCount, filter, shownTodos };
+}

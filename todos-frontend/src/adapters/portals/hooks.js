@@ -22,7 +22,6 @@ export function useCheckbox({ checked, indeterminate }) {
     ref.current.checked = checked;
     ref.current.indeterminate = indeterminate;
   }, [checked, indeterminate]);
-
   return ref;
 }
 

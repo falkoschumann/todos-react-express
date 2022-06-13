@@ -6,6 +6,10 @@ function TodoList({ activeCount, completedCount, children, onToggleAll }) {
     indeterminate: activeCount > 0 && completedCount > 0,
   });
 
+  function handleToggleAll(event) {
+    onToggleAll({ checked: event.target.checked });
+  }
+
   return (
     <main className="relative border-t border-solid border-gray-200">
       <input
@@ -13,7 +17,7 @@ function TodoList({ activeCount, completedCount, children, onToggleAll }) {
         id="toggle-all"
         type="checkbox"
         className="absolute -top-11 left-3 w-6 h-6"
-        onChange={onToggleAll}
+        onChange={handleToggleAll}
       />
       <label htmlFor="toggle-all" className="sr-only">
         Mark all as complete

@@ -3,14 +3,14 @@
 const todosRepository = require('../adapters/providers/todosRepository');
 
 function toggleTodo({ id }) {
-  function doToggleTodo() {
-    todos = todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo));
-  }
-
   let todos = todosRepository.load();
-  doToggleTodo();
+  todos = doToggleTodo(todos, id);
   todosRepository.store(todos);
   return { success: true };
+}
+
+function doToggleTodo(todos, id) {
+  return todos.map((todo) => (todo.id === id ? { ...todo, completed: !todo.completed } : todo));
 }
 
 module.exports = toggleTodo;

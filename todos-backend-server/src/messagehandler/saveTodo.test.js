@@ -14,7 +14,7 @@ describe('Save todo', () => {
   });
 
   it('changes todos title.', () => {
-    const status = saveTodo({ id: 1, title: 'Taste TypeScript' });
+    const status = saveTodo({ id: 1, newTitle: 'Taste TypeScript' });
 
     expect(status).toEqual({ success: true });
     const todos = todosRepository.load();
@@ -25,7 +25,7 @@ describe('Save todo', () => {
   });
 
   it('destroys todo if title is empty.', () => {
-    const status = saveTodo({ id: 1, title: '' });
+    const status = saveTodo({ id: 1, newTitle: '' });
 
     expect(status).toEqual({ success: true });
     const todos = todosRepository.load();

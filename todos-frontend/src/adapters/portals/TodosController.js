@@ -40,8 +40,8 @@ function TodosController({
     setEditing(todoId);
   }
 
-  function handleSaveTodo(id, title) {
-    onSaveTodo({ id, title });
+  function handleSaveTodo(id, newTitle) {
+    onSaveTodo({ id, newTitle });
     setEditing(null);
   }
 

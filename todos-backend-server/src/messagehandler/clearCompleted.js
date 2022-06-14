@@ -3,14 +3,14 @@
 const todosRepository = require('../adapters/providers/todosRepository');
 
 function clearCompleted() {
-  function doClearCompleted() {
-    todos = todos.filter((todo) => !todo.completed);
-  }
-
   let todos = todosRepository.load();
-  doClearCompleted();
+  todos = doClearCompleted(todos);
   todosRepository.store(todos);
   return { success: true };
+}
+
+function doClearCompleted(todos) {
+  return todos.filter((todo) => !todo.completed);
 }
 
 module.exports = clearCompleted;

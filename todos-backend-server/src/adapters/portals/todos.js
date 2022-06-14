@@ -47,10 +47,10 @@ router.post('/save-todo', (req, res) => {
     isJson(req, res) &&
     hasProperty('id', req, res) &&
     hasPropertyType('id', 'number', req, res) &&
-    hasProperty('title', req, res) &&
-    hasPropertyType('title', 'string', req, res)
+    hasProperty('newTitle', req, res) &&
+    hasPropertyType('newTitle', 'string', req, res)
   ) {
-    const status = saveTodo({ id: req.body.id, title: req.body.title });
+    const status = saveTodo({ id: req.body.id, newTitle: req.body.newTitle });
     res.send(status);
   }
 });

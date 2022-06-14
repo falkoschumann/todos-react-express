@@ -14,8 +14,8 @@ async function destroyTodo({ id }) {
   return APIUtils.postJson(`${baseUrl}/destroy-todo`, { id });
 }
 
-async function saveTodo({ id, title }) {
-  return APIUtils.postJson(`${baseUrl}/save-todo`, { id, title });
+async function saveTodo({ id, newTitle }) {
+  return APIUtils.postJson(`${baseUrl}/save-todo`, { id, newTitle });
 }
 
 async function selectTodos() {

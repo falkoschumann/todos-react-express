@@ -54,7 +54,7 @@ function TodosController({
   }
 
   useOnLoad(onSelectTodos);
-  const { activeCount, completedCount, filter, shownTodos } = useProjection();
+  const { activeCount, completedCount, filter, shownTodos } = useProjection(selectedTodos);
 
   return (
     <section className="relative container mx-auto mt-36 mb-10 bg-white shadow-2xl">

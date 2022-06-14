@@ -5,7 +5,7 @@ const destroyTodo = require('./destroyTodo');
 
 jest.mock('../adapters/providers/todosRepository');
 
-describe('Destroy todos', () => {
+describe('Destroy todo', () => {
   beforeEach(() => {
     todosRepository.store([
       { id: 1, title: 'Taste JavaScript', completed: true },
@@ -13,7 +13,7 @@ describe('Destroy todos', () => {
     ]);
   });
 
-  it('destroy a todo.', () => {
+  it('destroys a todo.', () => {
     const status = destroyTodo({ id: 1 });
 
     expect(status).toEqual({ success: true });

@@ -5,7 +5,7 @@ const clearCompleted = require('./clearCompleted');
 
 jest.mock('../adapters/providers/todosRepository');
 
-describe('Destroy todos', () => {
+describe('Clear completed', () => {
   beforeEach(() => {
     todosRepository.store([
       { id: 1, title: 'Taste JavaScript', completed: true },
@@ -13,7 +13,7 @@ describe('Destroy todos', () => {
     ]);
   });
 
-  it('destroy a todo.', () => {
+  it('removes completed todos.', () => {
     const status = clearCompleted({ todoId: 1 });
 
     expect(status).toEqual({ success: true });

@@ -14,12 +14,8 @@ function TodoItem({ editing, todo, onCancel, onDestroy, onEdit, onSave, onToggle
 
   function handleSubmit() {
     const value = editText.trim();
-    if (value) {
-      onSave(value);
-      setEditText(value);
-    } else {
-      onDestroy();
-    }
+    onSave(value);
+    setEditText(value);
   }
 
   function handleKeyDown(event) {
@@ -50,14 +46,16 @@ function TodoItem({ editing, todo, onCancel, onDestroy, onEdit, onSave, onToggle
   }, [editing, prevEditing]);
 
   return editing ? (
-    <input
-      ref={editorRef}
-      className="w-full p-4 pl-16 font-light text-2xl shadow-inner focus:outline-red-700/40"
-      value={editText}
-      onBlur={handleSubmit}
-      onChange={handleChange}
-      onKeyDown={handleKeyDown}
-    />
+    <li className="relative text-2xl border-b border-solid border-gray-200 last:border-b-0">
+      <input
+        ref={editorRef}
+        className="w-full p-4 pl-16 font-light text-2xl shadow-inner focus:outline-red-700/40"
+        value={editText}
+        onBlur={handleSubmit}
+        onChange={handleChange}
+        onKeyDown={handleKeyDown}
+      />
+    </li>
   ) : (
     <li className="group relative text-2xl border-b border-solid border-gray-200 last:border-b-0">
       <input

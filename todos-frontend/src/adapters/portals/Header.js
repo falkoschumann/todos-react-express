@@ -14,10 +14,8 @@ function Header({ onAddTodo }) {
 
     event.preventDefault();
     const title = newTodo.trim();
-    if (title) {
-      setNewTodo('');
-      onAddTodo(title);
-    }
+    onAddTodo(title);
+    setNewTodo('');
   }
 
   return (

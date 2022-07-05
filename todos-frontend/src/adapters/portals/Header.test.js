@@ -32,15 +32,4 @@ describe('Header', () => {
 
     expect(handleAddTodo).toBeCalledWith('Taste JavaScript');
   });
-
-  it('does not send empty title.', async () => {
-    userEvent.setup();
-    render(<Header onAddTodo={handleAddTodo} />);
-    const newTodoElement = screen.getByPlaceholderText('What needs to be done?');
-
-    await userEvent.type(newTodoElement, ' ');
-    await userEvent.keyboard('[Enter]');
-
-    expect(handleAddTodo).not.toBeCalled();
-  });
 });

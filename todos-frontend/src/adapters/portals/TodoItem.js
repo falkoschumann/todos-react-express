@@ -13,9 +13,9 @@ function TodoItem({ editing, todo, onCancel, onDestroy, onEdit, onSave, onToggle
   }
 
   function handleSubmit() {
-    const value = editText.trim();
-    onSave(value);
-    setEditText(value);
+    const title = editText.trim();
+    onSave(title);
+    setEditText(title);
   }
 
   function handleKeyDown(event) {

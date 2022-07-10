@@ -14,7 +14,6 @@ function TodoList({ activeCount, completedCount, children, onToggleAll }) {
     <main className="relative border-t border-solid border-gray-200">
       <input
         ref={toggleAllRef}
-        id="toggle-all"
         type="checkbox"
         className="absolute -top-11 left-3 w-6 h-6"
         onChange={handleToggleAll}
